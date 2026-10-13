@@ -1,0 +1,48 @@
+# Gemeinsame Umgebung für alle Kurs-Notebooks (Level 2–4).
+# Basis: LangChain 1.x / LangGraph 1.x (Notebooks nutzen create_agent + Middleware).
+# Exakte Versionen nach dem Setup: requirements.lock.txt
+
+# Jupyter
+ipykernel
+jupyterlab
+ipywidgets
+
+# Konfiguration
+python-dotenv
+
+# LangChain / LangGraph
+langchain>=1.0
+langchain-core>=1.0
+langchain-openai
+langchain-community
+langchain-text-splitters
+langchain-tavily
+langchain-chroma
+langchain-mcp-adapters
+langgraph>=1.0
+langgraph-checkpoint-sqlite
+langmem
+deepagents
+
+# LLM-SDKs & Tools
+openai
+openai-agents
+tavily-python
+wikipedia
+fastmcp
+tiktoken
+
+# Evaluation
+agentevals
+
+# Allgemein
+pydantic>=2
+numpy
+requests
+tenacity
+nest-asyncio
+
+# Level 3: Deployment mit FastAPI (3_12)
+fastapi
+uvicorn
+sse-starlette

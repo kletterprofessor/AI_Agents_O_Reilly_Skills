@@ -1,0 +1,29 @@
+# --- Python / venv ---
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Secrets ---
+.env
+!.env.example
+
+# --- Laufzeit-Artefakte (SQLite-Checkpointer, Task-DBs, Chroma) ---
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+chroma_db/
+.chroma/
+
+# --- Original-Download (bleibt als unveränderte Sicherung neben dem Repo) ---
+*.zip
+__MACOSX/
+
+# --- macOS / Editor ---
+.DS_Store
+.vscode/
+.idea/

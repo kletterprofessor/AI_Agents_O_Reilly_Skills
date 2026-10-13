@@ -1,0 +1,105 @@
+version: '3.8'
+
+# Production-ready Agent Architecture with Horizontal Scaling Support
+#
+# This setup demonstrates:
+# - Stateless API servers (can scale horizontally)
+# - Stateless workers (can scale horizontally)
+# - Redis for task queue and conversation state
+# - Shared SQLite database (replace with Postgres in production)
+#
+# Usage:
+#   docker-compose up --build
+#
+# Scale workers:
+#   docker-compose up --scale worker=5
+#
+# Scale API servers (need external load balancer):
+#   docker-compose up --scale api=3
+
+services:
+  # Redis: Task queue (broker) + Result backend + Conversation state
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # API Server (Stateless - can run multiple instances behind load balancer)
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - REDIS_URL=redis://redis:6379/2
+      - DATABASE_PATH=/app/data/tasks.db
+      - CONVERSATION_TTL=3600
+    volumes:
+      - db_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Celery Worker (Stateless - can run multiple instances)
+  worker:
+    build: .
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - REDIS_URL=redis://redis:6379/2
+      - DATABASE_PATH=/app/data/tasks.db
+    volumes:
+      - db_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: celery -A tasks worker --loglevel=info
+    deploy:
+      # Default replicas - can be overridden with --scale
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    # Graceful shutdown - let workers finish current tasks
+    stop_grace_period: 60s
+
+  # Flower: Celery monitoring dashboard (optional)
+  flower:
+    build: .
+    ports:
+      - "5555:5555"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      - redis
+    command: celery -A tasks flower --port=5555
+    profiles:
+      - monitoring
+
+volumes:
+  redis_data:
+  db_data:
+
+# To include monitoring:
+#   docker-compose --profile monitoring up

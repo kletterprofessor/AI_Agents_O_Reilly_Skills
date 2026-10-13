@@ -1,0 +1,23 @@
+# FastAPI and server
+fastapi>=0.109.0
+uvicorn>=0.27.0
+pydantic>=2.0.0
+
+# Celery for task queue
+celery>=5.3.0
+flower>=2.0.0
+
+# Redis client
+redis>=5.0.0
+
+# LangChain and LLM
+langchain>=0.3.0
+langchain-openai>=0.2.0
+langchain-tavily>=0.1.0
+langgraph>=0.2.0
+
+# Async support
+nest-asyncio>=1.5.0
+
+# Environment variables
+python-dotenv>=1.0.0

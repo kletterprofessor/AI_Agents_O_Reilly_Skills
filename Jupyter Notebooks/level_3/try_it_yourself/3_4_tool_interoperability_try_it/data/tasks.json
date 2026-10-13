@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "35170c2b": {
+      "id": "35170c2b",
+      "title": "Test task",
+      "priority": "high",
+      "due_date": null,
+      "completed": false,
+      "created_at": "2025-12-10T12:53:47.440441"
+    }
+  }
+}
