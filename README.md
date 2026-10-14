@@ -34,14 +34,20 @@ source .venv/bin/activate     # danach in jeder neuen Shell
 - Pro Lerneinheit ein Commit, z. B. `git commit -am "2.3 Tools: Tavily-Agent + eigenes Wetter-Tool"`.
 - Eigene Experimente in `*_try_it.ipynb` oder neuen Notebooks (`mein_…ipynb`), Lösungen nur zum Abgleich öffnen.
 
-## Lernplan: Theorie Level 1 ↔ Praxis Level 2 parallel
+## Lernplan: Level 2 der Reihe nach, Theorie Level 1 parallel
 
-| Theorie Level 1 (Kompetenz) | Status | Praxis Level 2 (Notebook) |
+| Praxis Level 2 (Notebook) | Bezug Theorie Level 1 | Status |
 |---|---|---|
-| 1.5 Tools (Tool-Anatomie, Description-Feld, MCP) | ✅ Theorie | 2.1 Prebuilt Agent instanziieren (`create_agent`) · 2.3 Tavily-Such-Tool integrieren |
-| 1.6 Agentic Loop (Phasen des Loops) | ✅ Theorie | try_it 2.5 Agent-Klassenstruktur · try_it 2.6 Loops implementieren |
-| 1.7 Agentic Design Patterns | ✅ Theorie | 2.4 LLM-Call-Chain (Prompt Chaining) · 2.7 Nodes, Edges, Graphs, State in LangGraph |
-| 1.8 Short-/Long-Term Memory | ⏭ als Nächstes | 2.8 State in einem LangGraph-Workflow verwalten · try_it 2.11 Chatbot-Agent mit Gedächtnis |
-| weitere Level-1-Kompetenzen | offen | 2.2 Structured Output · try_it 2.5 Effektive Prompts · 2.14 Prompt-Templates · 2.9 Logging · 2.10 Fehlerbehandlung · 2.12 Streaming · 2.13 Async vs. Sync · 2.15 Guardrails · 2.16 Testfälle · 2.17 Performance-Metriken |
+| 2.1 Prebuilt Agent instanziieren (`create_agent` + `@tool`) | 1.5 Tools · 1.6 Agentic Loop | ✅ |
+| 2.2 Structured Output (JSON-Schema strict, Pydantic `with_structured_output`) | 1.5 Tools (Tool-Definitionen = JSON-Schema) | ⏭ |
+| 2.3 Externe Tools integrieren (Tavily; Übung: Wikipedia) | 1.5 Tools | |
+| 2.4 LLM-Call-Chain (Prompt Chaining) | 1.7 Design Patterns | |
+| 2.5 Agent-Klasse from scratch (nur try_it) · Effektive Prompts (nur try_it) | 1.6 Agentic Loop | |
+| 2.6 Loops für mehrstufige Tasks (nur try_it) | 1.6 Agentic Loop | |
+| 2.7 Nodes, Edges, Graphs, State in LangGraph | 1.7 Design Patterns | |
+| 2.8 State in einem LangGraph-Workflow verwalten | 1.8 Short-/Long-Term Memory | |
+| 2.9 Logging · 2.10 API-Fehler · 2.11 Chatbot mit Gedächtnis (nur try_it) | 1.8 Memory (2.11) · weitere offen | |
+| 2.12 Streaming · 2.13 Async vs. Sync · 2.14 Prompt-Templates | offen | |
+| 2.15 Guardrails · 2.16 Testfälle · 2.17 Performance & Kosten | offen | |
 
-Hinweis: 2.5, 2.6 und 2.11 gibt es nur unter `try_it_yourself/`. Die `.ipynb_checkpoints/` enthalten eine ältere Nummerierung – ignorieren.
+Konvention: Übungen als Kopie mit Kürzel `-WRO` bearbeiten, Originale bleiben unverändert. `.ipynb_checkpoints/` enthalten eine ältere Nummerierung – ignorieren.
